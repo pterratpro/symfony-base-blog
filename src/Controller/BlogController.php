@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Article;
 use App\Entity\Category;
+use App\Entity\Comment;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -81,12 +82,32 @@ class BlogController extends AbstractController
     /**
      * @Route("/blog/{id}", name="blog-show")
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         $repository = $this->getDoctrine()->getRepository(Article::class);
         $article = $repository -> find($id);
+
+        $comment = new Comment();
+        $form = $this -> createFormBuilder($comment)
+                      -> add("title")
+                      ->add("author")
+                      ->add("content")
+                      ->add("save",SubmitType::class,['label'=> 'Ajouter un commentaire'])
+                      ->getForm();
+        $form->handleRequest($request);
+
+        if($form -> isSubmitted() && $form -> isValid()){
+            $comment->setCreatedAt(new \DateTime());
+            $comment -> setArticle($article);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+            return $this->redirectToRoute('blog-show',['id' => $article->getId()]);
+        }
+        
         return $this->render('blog/show.html.twig', [
-            'article' => $article
+            'article' => $article,
+            'form' => $form->createView()
         ]);
     }
 }

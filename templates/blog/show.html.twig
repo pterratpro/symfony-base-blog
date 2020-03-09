@@ -11,5 +11,25 @@
         <img src="{{article.image}}" alt="">
         <p>{{article.content}}</p>
         <a href="{{path('blog-edit',{'id':article.id})}}" class="btn btn-primary">Editer cet article</a>
+        
+        <h4>Commentaires : </h4>
+
+        {{form(form)}}
+
+        {% for comment in article.comments %}
+            <div class="row">
+                <div class="col-10">
+                    <h5>
+                        {{comment.title}}
+                    </h5>
+                    <p>
+                        Ecrit par {{comment.author}}, le {{comment.createdAt | date('d/m/Y')}}
+                    <p/>
+                    <p>
+                        {{comment.content}}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
     </article>
 {% endblock %}
