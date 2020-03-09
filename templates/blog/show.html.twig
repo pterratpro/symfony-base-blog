@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails d'un article{% endblock %}
+
+{% block body %}
+    <article>
+        <h3>{{article.title}}</h3>
+        <div>
+            Cet article a été écrit à {{article.createdAt | date('d/m/Y')}}
+        </div>
+        <img src="{{article.image}}" alt="">
+        <p>{{article.content}}</p>
+        <a href="{{path('blog-edit',{'id':article.id})}}" class="btn btn-primary">Editer cet article</a>
+    </article>
+{% endblock %}

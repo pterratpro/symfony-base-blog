@@ -1,0 +1,41 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails d'un article{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                {{ form_row(form.title,{
+                    'label':false ,
+                    'attr' :{
+                        'minlength': 4,
+                        'placeholder': "Saisir votre titre"
+                    },
+                }) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.content) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.image) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10">
+               {{form_row(form.category) }}
+            </div>
+        </div>
+
+
+
+        {{ form_row(form.save, { 'label': labelButton }) }}
+    </div>
+    {{ form_end(form) }}
+
+    {# {{ form(form) }} #}
+
+{% endblock %}
