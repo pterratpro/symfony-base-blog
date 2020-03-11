@@ -21,9 +21,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{path('blog')}}">Mes articles</a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
                     <a class="nav-link" href="/blog/new">Créer un nouvel article</a>
                 </li>
+                {% endif %}
                 </ul>
             </div>
         </nav>
